@@ -79,9 +79,9 @@ class Scraper:
                     print('Trying again in 5 minutes')
                     time.sleep(5 * 60)
 
-            if hour == 22 and datetime.datetime.now().hour == 23:
+            if hour == 9 and datetime.datetime.now().hour == 10:
                 DiscordMessageSender(f'Today the scraper ran {scraping_rounds} times and was successful {successful} times. It added {scraped_today} entries to the database').run(credentials['discord']['token'])
-            hour = datetime.datetime.now().hour == 23
+            hour = datetime.datetime.now().hour
 
         print('No more bots available, shutting down')
         discord_bot.DiscordMessageSender('No more bots available to scrape HDVs').run(credentials['discord']['token'])
