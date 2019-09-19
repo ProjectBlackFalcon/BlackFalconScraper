@@ -3,7 +3,7 @@ import queue
 import uuid
 from threading import Thread
 
-from tools import ws_connector
+from tools import ws_connector, mongo
 from credentials import credentials
 
 class NewBot:
@@ -54,6 +54,7 @@ class NewBot:
         self.orders.put((json.dumps(order),))
         response = json.loads(self.reports.get()[0])
         if 'success' in response.keys() and response['success']:
+            mongo.update_account(self.username, 'status', 'used')
             return True
         return False
 

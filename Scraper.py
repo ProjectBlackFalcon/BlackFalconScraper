@@ -6,7 +6,7 @@ from threading import Thread
 
 import time
 
-from tools import ws_connector, discord_bot, misc_function
+from tools import ws_connector, discord_bot, mongo
 from credentials import credentials
 from tools.discord_bot import DiscordMessageSender
 
@@ -43,7 +43,7 @@ class Scraper:
     def run(self, bot_name_pool):
         filtered = []
         for bot in bot_name_pool:
-            if not misc_function.get_profile(bot)['banned']:
+            if not mongo.get_profile(bot)['banned']:
                 filtered.append(bot)
         bot_name_pool = filtered
         scraped_today, scraping_rounds, successful = 0, 0, 0
