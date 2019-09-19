@@ -79,7 +79,7 @@ class Scraper:
                     print('Trying again in 5 minutes')
                     time.sleep(5 * 60)
 
-            if hour == 10 and datetime.datetime.now().hour == 11:
+            if hour == 22 and datetime.datetime.now().hour == 23:
                 DiscordMessageSender(f'Today the scraper ran {scraping_rounds} times and was successful {successful} times. It added {scraped_today} entries to the database').run(credentials['discord']['token'])
             hour = datetime.datetime.now().hour
 
