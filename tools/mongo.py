@@ -35,6 +35,6 @@ def update_account_full(username, new_account, client=None):
 
 def update_account(username, key, new_value):
     client = mongo_client()
-    account = get_profile(username, client=client)
+    account = get_account(username, client=client)
     account[key] = new_value
     update_account_full(username, account, client=client)
