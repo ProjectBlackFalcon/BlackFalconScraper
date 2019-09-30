@@ -122,6 +122,6 @@ if __name__ == '__main__':
     try:
         scraper.run(['Bryellerel', 'Zrapphrik', 'Tiffaelenn', 'Renfarierycog', 'Xcalest', 'Dgome', 'Srcelenes'])
     except:
-        send_discord_message(f'[{datetime.datetime.fromtimestamp(time.time())}] Scraper crashed \n`{traceback.format_exc()}`')
+        send_discord_message(f'[{datetime.datetime.fromtimestamp(time.time())}] Scraper crashed`')
+        send_discord_message(f'`{traceback.format_exc()}`')
         raise
-
