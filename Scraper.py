@@ -6,9 +6,9 @@ from threading import Thread
 
 import time
 
-from tools import ws_connector, discord_bot, mongo
+from tools import ws_connector, mongo
 from credentials import credentials
-from tools.discord_bot import DiscordMessageSender
+from tools.discord_bot import send_discord_message
 
 
 class Scraper:
@@ -71,7 +71,7 @@ class Scraper:
                 if 'banned' in report['report']['details']['Reason']:
                     print(bot_name_pool[0], 'has been banned')
                     print('Trying again in 30 minutes')
-                    discord_bot.DiscordMessageSender('{} has been banned. There {} {} bot{} left in the scraper bots pool'.format(bot_name_pool[0], 'is' if len(bot_name_pool) <= 2 else 'are', len(bot_name_pool) - 1, '' if len(bot_name_pool) <= 2 else 's')).run(credentials['discord']['token'])
+                    send_discord_message('{} has been banned. There {} {} bot{} left in the scraper bots pool'.format(bot_name_pool[0], 'is' if len(bot_name_pool) <= 2 else 'are', len(bot_name_pool) - 1, '' if len(bot_name_pool) <= 2 else 's'))
                     del bot_name_pool[0]
                     time.sleep(60 * 60)
                 else:
@@ -80,11 +80,11 @@ class Scraper:
                     time.sleep(5 * 60)
 
             if hour == 22 and datetime.datetime.now().hour == 23:
-                DiscordMessageSender(f'Today the scraper ran {scraping_rounds} times and was successful {successful} times. It added {scraped_today} entries to the database').run(credentials['discord']['token'])
+                send_discord_message(f'Today the scraper ran {scraping_rounds} times and was successful {successful} times. It added {scraped_today} entries to the database')
             hour = datetime.datetime.now().hour
 
         print('No more bots available, shutting down')
-        discord_bot.DiscordMessageSender('No more bots available to scrape HDVs').run(credentials['discord']['token'])
+        send_discord_message('No more bots available to scrape HDVs')
 
     def scrape(self, bot_name):
         """
@@ -120,8 +120,8 @@ if __name__ == '__main__':
     scraper = Scraper()
     scraper.login()
     try:
-        scraper.run(['Powerseilla', 'Rysticity'])
+        scraper.run(['Bryellerel', 'Zrapphrik', 'Tiffaelenn', 'Renfarierycog', 'Xcalest', 'Dgome', 'Srcelenes'])
     except:
-        DiscordMessageSender(f'[{datetime.datetime.fromtimestamp(time.time())}] Scraper crashed \n`{traceback.format_exc()}`').run(credentials['discord']['token'])
+        send_discord_message(f'[{datetime.datetime.fromtimestamp(time.time())}] Scraper crashed \n`{traceback.format_exc()}`')
         raise
 
