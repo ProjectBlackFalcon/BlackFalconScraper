@@ -48,6 +48,7 @@ class Scraper:
         bot_name_pool = filtered
         scraped_today, scraping_rounds, successful = 0, 0, 0
         hour = datetime.datetime.now().hour
+        print(bot_name_pool)
         while bot_name_pool:
             scraping_rounds += 1
             if len(bot_name_pool) < 3:
@@ -73,7 +74,7 @@ class Scraper:
                     print('Trying again in 30 minutes')
                     send_discord_message('{} has been banned. There {} {} bot{} left in the scraper bots pool'.format(bot_name_pool[0], 'is' if len(bot_name_pool) <= 2 else 'are', len(bot_name_pool) - 1, '' if len(bot_name_pool) <= 2 else 's'))
                     del bot_name_pool[0]
-                    time.sleep(60 * 60)
+                    time.sleep(30 * 60)
                 else:
                     print('Failed scraping auction houses in {} minutes, {} seconds'.format(round(duration // 60), round(duration % 60)))
                     print('Trying again in 5 minutes')
