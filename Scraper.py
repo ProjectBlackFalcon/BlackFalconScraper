@@ -40,12 +40,8 @@ class Scraper:
         ws_connector.Connection(self.host, self.port, self.orders, self.reports)
         self.connector_ok = [False]
 
-    def run(self, bot_name_pool):
-        filtered = []
-        for bot in bot_name_pool:
-            if not mongo.get_profile(bot)['banned']:
-                filtered.append(bot)
-        bot_name_pool = filtered
+    def run(self):
+        bot_name_pool = [bot['name'] for bot in mongo.get_all_bots()]
         scraped_today, scraping_rounds, successful = 0, 0, 0
         hour = datetime.datetime.now().hour
         print(bot_name_pool)
@@ -84,6 +80,8 @@ class Scraper:
                 send_discord_message(f'Today the scraper ran {scraping_rounds} times and was successful {successful} times. It added {scraped_today} entries to the database')
             hour = datetime.datetime.now().hour
 
+            bot_name_pool = [bot['name'] for bot in mongo.get_all_bots()]
+
         print('No more bots available, shutting down')
         send_discord_message('No more bots available to scrape HDVs')
 
@@ -121,7 +119,7 @@ if __name__ == '__main__':
     scraper = Scraper()
     scraper.login()
     try:
-        scraper.run(['Bryellerel', 'Zrapphrik', 'Tiffaelenn', 'Renfarierycog', 'Xcalest', 'Dgome', 'Srcelenes'])
+        scraper.run()
     except:
         send_discord_message(f'[{datetime.datetime.fromtimestamp(time.time())}] Scraper crashed`')
         send_discord_message(f'`{traceback.format_exc()}`')

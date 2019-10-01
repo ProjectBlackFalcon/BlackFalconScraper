@@ -38,3 +38,8 @@ def update_account(username, key, new_value):
     account = get_account(username, client=client)
     account[key] = new_value
     update_account_full(username, account, client=client)
+
+
+def get_all_bots():
+    client = mongo_client()
+    return client.blackfalcon.bots.find({'banned': False})
